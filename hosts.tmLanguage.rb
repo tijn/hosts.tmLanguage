@@ -73,17 +73,17 @@ __END__
   <array>
     <dict>
       <key>comment</key>
-      <string>comment</string>
-      <key>match</key>
-      <string>#.*$</string>
+      <string>Comments, anything after a #</string>
       <key>name</key>
       <string>comment.line.hosts</string>
+      <key>match</key>
+      <string>#.*$</string>
     </dict>
 
     <!-- a different color for local IP addresses -->
     <dict>
       <key>comment</key>
-      <string>Private IPv4-address</string>
+      <string>Private IPv4-address like 10.0.0.1</string>
       <key>match</key>
       <string><%= PRIVATE_IP_V4 %></string>
       <key>name</key>
