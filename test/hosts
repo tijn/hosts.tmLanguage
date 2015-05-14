@@ -1,0 +1,73 @@
+# localhost entries using IPv4 and IPv6
+127.0.0.1 localhost.localdomain localhost
+::1       localhost.localdomain localhost
+
+# Private network IPs show in a different colour
+# class A private network
+10.0.0.1       server1.private
+10.0.0.2       server2.private
+10.255.255.255 server3.private
+
+# class B private network
+172.16.0.1     server4.private
+172.31.255.255 server5.private
+
+# class C private network
+192.168.0.1     server5.private
+192.168.255.255 server6.private
+
+
+# an IP in the public range should have different colour than private IP ranges
+192.30.252.131  github.com
+
+# illegal entries should not be highlighted
+189.23.290.13   i.cannot.even
+
+
+# IPv6 addresses
+1:2:3:4:5:6:7:8 a.example.com
+
+1::             b.example.com
+1:2:3:4:5:6:7:: c.example.com
+
+1::8            d.example.com
+1:2:3:4:5:6::8  e.example.com
+1:2:3:4:5:6::8  f.example.com
+
+1::7:8
+1:2:3:4:5::7:8
+1:2:3:4:5::8
+
+1::6:7:8
+1:2:3:4::6:7:8
+1:2:3:4::8
+
+1::5:6:7:8
+1:2:3::5:6:7:8
+1:2:3::8
+
+1::4:5:6:7:8
+1:2::4:5:6:7:8
+1:2::8
+
+1::3:4:5:6:7:8
+1::3:4:5:6:7:8
+1::8
+
+::2:3:4:5:6:7:8
+::2:3:4:5:6:7:8
+::8
+::
+
+# (link-local IPv6 addresses with zone index)
+fe80::7:8%eth0
+fe80::7:8%1
+
+# (IPv4-mapped IPv6 addresses and IPv4-translated addresses)
+::255.255.255.255
+::ffff:255.255.255.255
+::ffff:0:255.255.255.255
+
+# (IPv4-Embedded IPv6 Address)
+2001:db8:3:4::192.0.2.33
+64:ff9b::192.0.2.33
