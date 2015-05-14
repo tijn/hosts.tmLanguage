@@ -4,13 +4,13 @@
 
 # Private network IPs show in a different colour
 # class A private network
-10.0.0.1       server1.private
-10.0.0.2       server2.private
-10.255.255.255 server3.private
+10.0.0.1        server1.private
+10.0.0.2        server2.private
+10.255.255.255  server3.private
 
 # class B private network
-172.16.0.1     server4.private
-172.31.255.255 server5.private
+172.16.0.1      server4.private
+172.31.255.255  server5.private
 
 # class C private network
 192.168.0.1     server5.private
@@ -20,54 +20,71 @@
 # an IP in the public range should have different colour than private IP ranges
 192.30.252.131  github.com
 
-# illegal entries should not be highlighted
+
+# invalid IP addresses should not be highlighted as if they are valid
 189.23.290.13   i.cannot.even
+
+# invalid IPv6 addresses should not be highlighted as if they are valid
+1:::            woops1.typo
+1::1:           woops2.typo
+ffff0::1:       woops3.typo
+
+# non-IP addresses should not be highlighted as if they are an IP address. (Yeah...)
+yolo.yoyo       random.characters
 
 
 # IPv6 addresses
 1:2:3:4:5:6:7:8 a.example.com
 
-1::             b.example.com
-1:2:3:4:5:6:7:: c.example.com
+1::             b1.example.com
+1:2::           b2.example.com
+1:2:3::         b3.example.com
+1:2:3:4::       b4.example.com
+1:2:3:4:5::     b5.example.com
+1:2:3:4:5:6::   b6.example.com
+1:2:3:4:5:6:7:: b7.example.com
 
-1::8            d.example.com
-1:2:3:4:5:6::8  e.example.com
-1:2:3:4:5:6::8  f.example.com
+1::8            c1.example.com
+1:2::8          c3.example.com
+1:2:3::8        c4.example.com
+1:2:3:4::8      c5.example.com
+1:2:3:4:5::8    c6.example.com
+1:2:3:4:5:6::8  c7.example.com
 
-1::7:8
-1:2:3:4:5::7:8
-1:2:3:4:5::8
+1::7:8          d.example.com
+1:2:3:4:5::7:8  d.example.com
+1:2:3:4:5::8    d.example.com
 
-1::6:7:8
-1:2:3:4::6:7:8
-1:2:3:4::8
+1::6:7:8        e.example.com
+1:2:3:4::6:7:8  e.example.com
+1:2:3:4::8      e.example.com
 
-1::5:6:7:8
-1:2:3::5:6:7:8
-1:2:3::8
+1::5:6:7:8      f.example.com
+1:2:3::5:6:7:8  f.example.com
+1:2:3::8        f.example.com
 
-1::4:5:6:7:8
-1:2::4:5:6:7:8
-1:2::8
+1::4:5:6:7:8    g.example.com
+1:2::4:5:6:7:8  g.example.com
+1:2::8          g.example.com
 
-1::3:4:5:6:7:8
-1::3:4:5:6:7:8
-1::8
+1::3:4:5:6:7:8  h.example.com
+1::3:4:5:6:7:8  h.example.com
+1::8            h.example.com
 
-::2:3:4:5:6:7:8
-::2:3:4:5:6:7:8
-::8
-::
+::2:3:4:5:6:7:8 i.example.com
+::2:3:4:5:6:7:8 i.example.com
+::8             i.example.com
+::              i.example.com
 
 # (link-local IPv6 addresses with zone index)
-fe80::7:8%eth0
-fe80::7:8%1
+fe80::7:8%eth0  a.link-local
+fe80::7:8%1     b.link-local
 
 # (IPv4-mapped IPv6 addresses and IPv4-translated addresses)
-::255.255.255.255
-::ffff:255.255.255.255
-::ffff:0:255.255.255.255
+::255.255.255.255        a.ip4.mapped
+::ffff:255.255.255.255   b.ip4.mapped
+::ffff:0:255.255.255.255 c.ip4.mapped
 
 # (IPv4-Embedded IPv6 Address)
-2001:db8:3:4::192.0.2.33
-64:ff9b::192.0.2.33
+2001:db8:3:4::192.0.2.33 a.ip4.embedded.ip6
+64:ff9b::192.0.2.33      b.ip4.embedded.ip6
