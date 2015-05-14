@@ -23,6 +23,8 @@
 
 # invalid IP addresses should not be highlighted as if they are valid
 189.23.290.13   i.cannot.even
+1.1.1.1.1       one.too.many
+1.1111.1.1      one.too.many.too
 
 # invalid IPv6 addresses should not be highlighted as if they are valid
 1:::            woops1.typo
