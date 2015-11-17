@@ -7,8 +7,8 @@ Syntax highlighting (and shortcut keys) for your hosts file.
 
 This version is not a true continuation of the previous one.
 
-The previous version was made by Rodrigo Flores. You probably once installed
-this otherwise you would not see this message. It can still be found here:
+The previous version was a package made by Rodrigo Flores. You probably once
+installed it otherwise you would not see this message. It can still be found here:
 
     https://github.com/rodrigoflores/hosts
 
