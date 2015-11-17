@@ -1,0 +1,27 @@
+Hosts
+=====
+
+Syntax highlighting (and shortcut keys) for your hosts file.
+
+-----
+
+This version is not a true continuation of the previous one.
+
+The previous version was made by Rodrigo Flores. You probably once installed
+this otherwise you would not see this message. It can still be found here:
+
+    https://github.com/rodrigoflores/hosts
+
+This new version is an entirely different project using machine generated
+regular expressions to differentiate between private and public IP address
+ranges. It will also not color any "impossible" IP addresses that you might
+have spotted in some TV series. For more information please see README.md,
+which is also hosted here:
+
+    https://github.com/tijn/hosts.tmLanguage
+
+
+We decided to replace the package because it has more precise patters and it
+supports anything that Rodrigo's package did. If you feel that this is not the
+case, or if you found a bug, please open an issue on the GitHub page listed
+above.
