@@ -4,18 +4,17 @@ require 'erb'
 
 # == IPv4 ==
 
-# any number from 1 to 255
-# regular expressions are not the most straigtforward way of describing these but that is what we have to do
+# for this purpose, a byte is simply any number from 0 to 255
+# regular expressions are not the most straightforward way of describing these but that is what we have to do
 BYTE = '(' +
-  [ "(25[0-5])",     # 250--255
-    "(2[0-4][0-9])", # 200--249
-    "(1[0-9][0-9])", # 100--199
-    "([1-9][0-9])",  # 10--99
-    "[0-9]",         # 1--9
+  [ "(25[0-5])",     # 250 to 255
+    "(2[0-4][0-9])", # 200 to 249
+    "(1[0-9][0-9])", # 100 to 199
+    "([1-9][0-9])",  # 10 to 99
+    "[0-9]",         # 0 to 9
   ].join('|') + ')'
 
-# an IPv4 address: 4 bytes separated by dots
-IP_V4 = "(#{BYTE}\\.){3}#{BYTE}"
+IP_V4 = "(#{BYTE}\\.){3}#{BYTE}" # an IPv4 address: 4 bytes separated by dots
 
 # == IPv4 private address space ==
 
@@ -53,6 +52,7 @@ IP_V6 = [
     "(#{SEGMENT}:){1,7}:",                      # 1::                                 1:2:3:4:5:6:7::
   ].map { |variant| "(#{variant})" }.join('|')
 
+# == render the tmLanguage file ==
 
 # binding gives the template access to all local variables
 File.open(File.basename(__FILE__, '.rb'), 'w') do |file|
