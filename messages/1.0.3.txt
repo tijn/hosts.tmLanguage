@@ -1,0 +1,11 @@
+Hosts
+=====
+
+Syntax highlighting (and shortcut keys) for your hosts file.
+
+-----
+
+Michael (https://github.com/michaelblyons) provided a fix and an enhancement:
+
+- hostnames containing a dash (or two) are now highlighted correctly
+- loopback addresses (localhost) get special styling
