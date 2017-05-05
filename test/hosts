@@ -1,5 +1,6 @@
 # localhost entries using IPv4 and IPv6
 127.0.0.1 localhost.localdomain localhost
+127.8.8.8 localhost.localdomain localhost
 ::1       localhost.localdomain localhost
 
 # Private network IPs show in a different colour
@@ -20,6 +21,8 @@
 # an IP in the public range should have different colour than private IP ranges
 192.30.252.131  github.com
 
+# an IP containing ::1 should not be partly highlighted as loopback
+8::1            unassigned.arpa
 
 # invalid IP addresses should not be highlighted as if they are valid
 189.23.290.13   i.cannot.even
