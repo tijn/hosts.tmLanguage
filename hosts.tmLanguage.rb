@@ -131,7 +131,7 @@ __END__
       <key>comment</key>
       <string>hostname</string>
       <key>match</key>
-      <string>[\w\.]*</string>
+      <string>[\w\.-]*</string>
       <key>name</key>
       <string>constant.variable.hosts</string>
     </dict>
