@@ -27,6 +27,8 @@ PRIVATE_IP_V4 = [
     "192\\.168(\\.#{BYTE}){2}" # 192.169.x.x
   ].map { |addr| "(#{addr})" }.join('|')
 
+LOOPBACK_IP_V4 = "127(\\.#{BYTE}){3}" # 127.x.x.x
+
 # == IPv6 ==
 
 # Luckily David M. Syzdek already did the hard work and we can use it here
@@ -51,6 +53,8 @@ IP_V6 = [
     "(#{SEGMENT}:){1,6}:#{SEGMENT}",            # 1::8               1:2:3:4:5:6::8   1:2:3:4:5:6::8
     "(#{SEGMENT}:){1,7}:",                      # 1::                                 1:2:3:4:5:6:7::
   ].map { |variant| "(#{variant})" }.join('|')
+
+LOOPBACK_IP_V6 = "::1"
 
 # == render the tmLanguage file ==
 
@@ -83,6 +87,16 @@ __END__
       <string>comment.line.hosts</string>
       <key>match</key>
       <string>#.*$</string>
+    </dict>
+
+    <!-- a different color for localhost -->
+    <dict>
+      <key>comment</key>
+      <string>Loopback address like 127.0.0.1</string>
+      <key>match</key>
+      <string><%= LOOPBACK_IP_V4 %>|<%= LOOPBACK_IP_V6 %></string>
+      <key>name</key>
+      <string>support.type.built-in.loopback.hosts</string>
     </dict>
 
     <!-- a different color for local IP addresses -->

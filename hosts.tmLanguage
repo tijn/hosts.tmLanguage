@@ -23,6 +23,16 @@
       <string>#.*$</string>
     </dict>
 
+    <!-- a different color for localhost -->
+    <dict>
+      <key>comment</key>
+      <string>Loopback address like 127.0.0.1</string>
+      <key>match</key>
+      <string>127(\.((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|[0-9])){3}|::1</string>
+      <key>name</key>
+      <string>support.type.built-in.loopback.hosts</string>
+    </dict>
+
     <!-- a different color for local IP addresses -->
     <dict>
       <key>comment</key>
