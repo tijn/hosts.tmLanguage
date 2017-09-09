@@ -1,0 +1,8 @@
+Hosts
+=====
+
+Syntax highlighting (and shortcut keys) for your hosts file.
+
+-----
+
+Michael (https://github.com/michaelblyons) provided functionality to jump to hosts with [cmd]+[R] on MacOS or [ctrl]+[R] on Linux and Windows.
