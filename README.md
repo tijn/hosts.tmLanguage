@@ -14,3 +14,5 @@ Install via [Package Control](https://packagecontrol.io/).
 ## Acknowledgements
 
 The regular expressions for IPv6 by David M. Syzdek were found [on stackoverflow.com](http://stackoverflow.com/a/17871737/852657). I had to rewrite them in a different format so any faults or mistakes are probably mine.
+
+[Michael B Lyons](https://github.com/michaelblyons) provided fixes and some great additions.
