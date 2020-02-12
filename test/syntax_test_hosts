@@ -1,0 +1,258 @@
+# SYNTAX TEST "Packages/Hosts/hosts.sublime-syntax"
+
+1.2.3.4  host
+#^^^^^^ constant.numeric.integer.decimal.hosts
+ 1.2.3.4 space
+#^^^^^^^ constant.numeric
+
+# localhost entries using IPv4 and IPv6
+127.0.0.1 localhost.localdomain localhost
+#^^^^^^^^ constant.language
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.hostname
+#                              ^ - string
+#                               ^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                                        ^ - meta.line
+127.8.8.8 localhost.localdomain localhost
+#^^^^^^^^ constant.language
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.hostname
+#                              ^ - string
+#                               ^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                                        ^ - meta.line
+::1       localhost.localdomain localhost
+#^^ constant.language
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.hostname
+#                              ^ - string
+#                               ^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                                        ^ - meta.line
+
+# Private network IPs show in a different colour
+
+# class A private network
+10.0.0.1        server1.private # comment after host
+#^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+#                               ^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+10.0.0.2        server2.private
+#^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+10.255.255.255  server3.private
+#^^^^^^^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+
+# class B private network
+172.16.0.1      server4.private
+#^^^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+172.31.255.255  server5.private
+#^^^^^^^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+
+# class C private network
+192.168.0.1     server5.private
+#^^^^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+192.168.255.255 server6.private
+#^^^^^^^^^^^^^^ meta.ip-address.v4 support.constant
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+
+# IPv6 private network
+fc00::          private.range
+#^^^^^ meta.ip-address.v6 support.constant
+#               ^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                            ^ - meta.line
+fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff private.range
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.ip-address.v6 support.constant
+#                                       ^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                                                    ^ - meta.line
+
+# an IP in the public range should have different colour than private IP ranges
+192.30.252.131  github.com
+#^^^^^^^^^^^^^ meta.ip-address.v4 constant.numeric
+#               ^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                         ^ - meta.line
+
+# an IP containing ::1 should not be partly highlighted as loopback
+8::1            unassigned.arpa
+#^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^^^ meta.hostname
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.line.ip-mapping
+#                              ^ - meta.line
+
+# invalid IP addresses should not be highlighted as if they are valid
+189.23.290.13   i.cannot.even
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+1.1.1.1.1       one.too.many
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+1.1111.1.1      one.too.many.too
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+
+# invalid IPv6 addresses should not be highlighted as if they are valid
+1:::            woops1.typo
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+1::1:           woops2.typo
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+ffff0::1:       woops3.typo
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+
+# non-IP addresses should not be highlighted as if they are an IP address. (Yeah...)
+yolo.yoyo       random.characters
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.ip-address - meta.hostname
+
+
+# IPv6 addresses
+1:2:3:4:5:6:7:8 a.example.com
+#^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::             b1.example.com
+#^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2::           b2.example.com
+#^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3::         b3.example.com
+#^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4::       b4.example.com
+#^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5::     b5.example.com
+#^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5:6::   b6.example.com
+#^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5:6:7:: b7.example.com
+#^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::8            c1.example.com
+#^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2::8          c3.example.com
+#^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3::8        c4.example.com
+#^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4::8      c5.example.com
+#^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5::8    c6.example.com
+#^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5:6::8  c7.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::7:8          d.example.com
+#^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5::7:8  d.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4:5::8    d.example.com
+#^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::6:7:8        e.example.com
+#^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4::6:7:8  e.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3:4::8      e.example.com
+#^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::5:6:7:8      f.example.com
+#^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3::5:6:7:8  f.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2:3::8        f.example.com
+#^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::4:5:6:7:8    g.example.com
+#^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2::4:5:6:7:8  g.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1:2::8          g.example.com
+#^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+1::3:4:5:6:7:8  h.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1::3:4:5:6:7:8  h.example.com
+#^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+1::8            h.example.com
+#^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+::2:3:4:5:6:7:8 i.example.com
+#^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+::2:3:4:5:6:7:8 i.example.com
+#^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+::8             i.example.com
+#^^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+::              i.example.com
+#^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^^ meta.hostname.hosts
+
+# (link-local IPv6 addresses with zone index)
+fe80::7:8%eth0  a.link-local
+#^^^^^^^^^^^^^ meta.ip-address.v6.hosts constant.numeric
+#        ^ punctuation.separator.mapping
+#         ^^^^ entity.name.label
+fe80::7:8%1     b.link-local
+#^^^^^^^^^^ meta.ip-address.v6.hosts constant.numeric
+#        ^ punctuation.separator.mapping
+#         ^ entity.name.label
+
+# (IPv4-mapped IPv6 addresses and IPv4-translated addresses)
+::255.255.255.255        a.ip4.mapped
+#^^^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#                        ^^^^^^^^^^^^ meta.hostname.hosts
+::ffff:255.255.255.255   b.ip4.mapped
+#^^^^^^^^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#                        ^^^^^^^^^^^^ meta.hostname.hosts
+::ffff:0:255.255.255.255 c.ip4.mapped
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#                        ^^^^^^^^^^^^ meta.hostname.hosts
+
+# (IPv4-Embedded IPv6 Address)
+2001:db8:3:4::192.0.2.33 a.ip4.embedded.ip6
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#                        ^^^^^^^^^^^^^^^^^^ meta.hostname.hosts
+64:ff9b::192.0.2.33      b.ip4.embedded.ip6
+#^^^^^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
+#                        ^^^^^^^^^^^^^^^^^^ meta.hostname.hosts

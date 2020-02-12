@@ -1,0 +1,106 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - hosts
+scope: text.hosts
+
+variables:
+  zero_to_255: (?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9][0-9])|(?:[1-9][0-9])|[0-9])
+  sixteen_to_31: (?:1[6-9]|2[0-9]|3[0-1])
+  ipv4: (?:(?:{{zero_to_255}}\.){3}{{zero_to_255}})
+  ipv4_private: |-
+    (?x:
+      10(?:\.{{zero_to_255}}){3}                       # 10.x.x.x
+      |172\.{{sixteen_to_31}}(?:\.{{zero_to_255}}){2}  # 172.16.0.0 - 172.31.255.255
+      |192\.168(?:\.{{zero_to_255}}){2}                # 192.168.x.x
+    )
+  ipv4_loopback: 127(?:\.{{zero_to_255}}){3}           # 127.x.x.x
+  ipv6: |-
+    (?xi:
+      ::(?:ffff(?::0{1,4}){0,1}:){0,1}{{ipv4}}          # ::255.255.255.255  ::ffff:255.255.255.255  ::ffff:0:255.255.255.255 (IPv4-mapped IPv6 addresses and IPv4-translated addresses)
+      |(?:[0-9a-f]{1,4}:){1,4}:{{ipv4}}                 # 2001:db8:3:4::192.0.2.33  64:ff9b::192.0.2.33                       (IPv4-Embedded IPv6 Address)
+      |fe80:(?::[0-9a-f]{1,4}){0,4}%[0-9a-z]{1,}        # fe80::7:8%eth0     fe80::7:8%1                                      (link-local IPv6 addresses with zone index)
+      |(?:[0-9a-f]{1,4}:){7,7}    [0-9a-f]{1,4}         # 1:2:3:4:5:6:7:8
+      |   [0-9a-f]{1,4}:      (?::[0-9a-f]{1,4}){1,6}   # 1::3:4:5:6:7:8     1::3:4:5:6:7:8   1::8
+      |(?:[0-9a-f]{1,4}:){1,2}(?::[0-9a-f]{1,4}){1,5}   # 1::4:5:6:7:8       1:2::4:5:6:7:8   1:2::8
+      |(?:[0-9a-f]{1,4}:){1,3}(?::[0-9a-f]{1,4}){1,4}   # 1::5:6:7:8         1:2:3::5:6:7:8   1:2:3::8
+      |(?:[0-9a-f]{1,4}:){1,4}(?::[0-9a-f]{1,4}){1,3}   # 1::6:7:8           1:2:3:4::6:7:8   1:2:3:4::8
+      |(?:[0-9a-f]{1,4}:){1,5}(?::[0-9a-f]{1,4}){1,2}   # 1::7:8             1:2:3:4:5::7:8   1:2:3:4:5::8
+      |(?:[0-9a-f]{1,4}:){1,6}   :[0-9a-f]{1,4}         # 1::8               1:2:3:4:5:6::8   1:2:3:4:5:6::8
+      |(?:[0-9a-f]{1,4}:){1,7}   :                      # 1::                                 1:2:3:4:5:6:7::
+      |:(?:(?::[0-9a-f]{1,4}){1,7}|:)                   # ::2:3:4:5:6:7:8    ::2:3:4:5:6:7:8  ::8       ::
+    )
+  ipv6_private: |-
+    (?xi:f[cd]\h\h:(?:
+       (?:[0-9a-f]{1,4}:){6}      [0-9a-f]{1,4}
+      |(?:[0-9a-f]{1,4}:)?    (?::[0-9a-f]{1,4}){1,5}
+      |(?:[0-9a-f]{1,4}:){0,2}(?::[0-9a-f]{1,4}){1,4}
+      |(?:[0-9a-f]{1,4}:){0,3}(?::[0-9a-f]{1,4}){1,3}
+      |(?:[0-9a-f]{1,4}:){0,4}(?::[0-9a-f]{1,4}){1,2}
+      |(?:[0-9a-f]{1,4}:){0,5}   :[0-9a-f]{1,4}
+      |(?:[0-9a-f]{1,4}:){0,6}   :
+    ))
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    - match: ^
+      push:
+        - meta_scope: meta.line.ip-mapping.hosts
+        - match: (?=\n|\s*#)
+          pop: true
+        - include: loopback
+        - include: private
+        - include: public
+        - match: \S+
+          # Consume non-IP lines to prevent highlighting.
+          # Less destructive than invalid.illegal, especially while typing
+
+  loopback:
+    - match: \B::1(?=\s|$)
+      scope: meta.ip-address.v6.hosts constant.language.hosts
+      push: expect-hostnames
+    - match: \b{{ipv4_loopback}}(?=\s|$)
+      scope: meta.ip-address.v4.hosts constant.language.hosts
+      push: expect-hostnames
+
+  private:
+    - match: \b{{ipv4_private}}(?=\s|$)
+      scope: meta.ip-address.v4.hosts support.constant.built-in.hosts
+      push: expect-hostnames
+    - match: \b{{ipv6_private}}(?=\s|$)
+      scope: meta.ip-address.v6.hosts support.constant.built-in.hosts
+      push: expect-hostnames
+
+  public:
+    - match: \b{{ipv4}}(?=\s|$)
+      scope: meta.ip-address.v4.hosts constant.numeric.integer.decimal.hosts
+      push: expect-hostnames
+    - match: (?i:fe80:(?::[0-9a-f]{1,4}){0,4}(%)([0-9a-z]+))(?=\s|$)
+      scope: meta.ip-address.v6.hosts constant.numeric.integer.hexadecimal.hosts
+      captures:
+        1: punctuation.separator.mapping.hosts
+        2: entity.name.label.hosts
+    - match: '{{ipv6}}(?=\s|$)'
+      scope: meta.ip-address.v6.hosts constant.numeric.integer.hexadecimal.hosts
+      push: expect-hostnames
+
+  expect-hostnames:
+    - match: (?=\n|\s*#)
+      pop: true
+    - match: '[ \t]+([\w.-]+)'
+      captures:
+        1: meta.hostname.hosts
+
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.hosts
+      push:
+        - meta_scope: comment.line.number-sign.hosts
+        - match: $\n?
+          pop: true
