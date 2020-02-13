@@ -4,7 +4,7 @@
     <key>name</key>
     <string>Symbol List</string>
     <key>scope</key>
-    <string>text.hosts constant.variable.hosts</string>
+    <string>text.hosts meta.hostname</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>
