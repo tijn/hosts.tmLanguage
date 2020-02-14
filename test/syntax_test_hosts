@@ -2,8 +2,61 @@
 
 1.2.3.4  host
 #^^^^^^ constant.numeric.integer.decimal.hosts
- 1.2.3.4 space
+1.2.3.4  host.tld
+#^^^^^^ constant.numeric.integer.decimal.hosts
+#        ^^^^^^^^ meta.hostname string.unquoted
+#            ^ punctuation.separator.sequence
+ 1.2.3.4 space.
 #^^^^^^^ constant.numeric
+#             ^ punctuation.terminator
+
+# No hostname assigned
+1.2.3.4
+#^^^^^^ meta.ip-address constant.numeric
+#      ^ - meta
+
+# Invalid hostnames
+1.2.3.4  foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.fo
+#^^^^^^ meta.ip-address constant.numeric
+#        ^^^^^^^^^^^^^^^^^ invalid.illegal.hostname.too-long
+1.2.3.4  foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.foo.fooo.
+#^^^^^^ meta.ip-address constant.numeric
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal
+1.2.3.4  baz.fooooooooooooooooooooooooo-ooooooooooooooooooooooooooooooooooooo.bar
+#^^^^^^ meta.ip-address constant.numeric
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.hostname.too-long
+1.2.3.4  fo?o.bar
+#^^^^^^ meta.ip-address constant.numeric
+#                ^ - meta
+#          ^ invalid.illegal.hostname.character
+1.2.3.4  .foo
+#^^^^^^ meta.ip-address constant.numeric
+#            ^ - meta
+#        ^ invalid.illegal.hostname.leading-character
+1.2.3.4  -foo
+#^^^^^^ meta.ip-address constant.numeric
+#            ^ - meta
+#        ^ invalid.illegal.hostname.leading-character
+1.2.3.4  foo-
+#^^^^^^ meta.ip-address constant.numeric
+#            ^ - meta
+#           ^ invalid.illegal.hostname.trailing-character
+1.2.3.4  -foo
+#^^^^^^ meta.ip-address constant.numeric
+#            ^ - meta
+#        ^ invalid.illegal.hostname.leading-character
+1.2.3.4  foo..bar
+#^^^^^^ meta.ip-address constant.numeric
+#                ^ - meta
+#           ^ invalid.illegal.hostname.sequence
+1.2.3.4  foo.-bar
+#^^^^^^ meta.ip-address constant.numeric
+#                ^ - meta
+#            ^ invalid.illegal.hostname.sequence
+1.2.3.4  foo-.bar
+#^^^^^^ meta.ip-address constant.numeric
+#                ^ - meta
+#           ^ invalid.illegal.hostname.sequence
 
 # localhost entries using IPv4 and IPv6
 127.0.0.1 localhost.localdomain localhost
@@ -233,10 +286,13 @@ fe80::7:8%eth0  a.link-local
 #^^^^^^^^^^^^^ meta.ip-address.v6.hosts constant.numeric
 #        ^ punctuation.separator.mapping
 #         ^^^^ entity.name.label
+#               ^^^^^^^^^^^^ meta.hostname.hosts
 fe80::7:8%1     b.link-local
 #^^^^^^^^^^ meta.ip-address.v6.hosts constant.numeric
 #        ^ punctuation.separator.mapping
 #         ^ entity.name.label
+#^ meta.ip-address.v6 constant.numeric
+#               ^^^^^^^^^^^^ meta.hostname.hosts
 
 # (IPv4-mapped IPv6 addresses and IPv4-translated addresses)
 ::255.255.255.255        a.ip4.mapped
