@@ -1,0 +1,19 @@
+Hosts
+=====
+
+Syntax highlighting (and shortcut keys) for your hosts file.
+
+-----
+
+Michael (https://github.com/michaelblyons) wrote the whole syntax definition
+again in the new YAML-based format.
+
+He added patterns to recognize private IPv6 ranges, and thus they are now
+highlighed as such.
+
+He also added hostname highlighting. This makes it really easy to recognize
+illegal hostnames. (For example hostnames containing the wrong characters, or
+ones that start with a minus '-', or hostnames that are simply too long.)
+
+This is a major version release because the new YAML syntax file means ST2 is
+not supported anymore.

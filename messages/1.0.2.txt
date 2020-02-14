@@ -20,8 +20,7 @@ which is also hosted here:
 
     https://github.com/tijn/hosts.tmLanguage
 
-
-We decided to replace the package because it has more precise patters and it
+We decided to replace the package because it has more precise patterns and it
 supports anything that Rodrigo's package did. If you feel that this is not the
 case, or if you found a bug, please open an issue on the GitHub page listed
 above.
