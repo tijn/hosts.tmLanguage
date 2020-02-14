@@ -41,6 +41,9 @@ variables:
       |(?:[0-9a-f]{1,4}:){0,5}   :[0-9a-f]{1,4}
       |(?:[0-9a-f]{1,4}:){0,6}   :
     ))
+  hostname_char: '[\w-]'
+  hostname_segment: (?:\w{{hostname_char}}{1,61}\w|\w\w?)
+  hostname_break: (?=[ \t#]|$)
 
 contexts:
   # The prototype context is prepended to all contexts but those setting
@@ -86,6 +89,7 @@ contexts:
       captures:
         1: punctuation.separator.mapping.hosts
         2: entity.name.label.hosts
+      push: expect-hostnames
     - match: '{{ipv6}}(?=\s|$)'
       scope: meta.ip-address.v6.hosts constant.numeric.integer.hexadecimal.hosts
       push: expect-hostnames
@@ -93,9 +97,37 @@ contexts:
   expect-hostnames:
     - match: (?=\n|\s*#)
       pop: true
-    - match: '[ \t]+([\w.-]+)'
+    - match: '[ \t]([.-])'
       captures:
-        1: meta.hostname.hosts
+        1: invalid.illegal.hostname.leading-character.hosts
+    - match: '[ \t]+([\w.-]{254,})(\.)?{{hostname_break}}'
+      captures:
+        1: invalid.illegal.hostname.too-long.hosts
+        2: punctuation.terminator.hosts
+    - match: '[ \t]+(?=\w)'
+      push: in-hostname
+
+  in-hostname:
+    - meta_content_scope: meta.hostname.hosts string.unquoted.hosts
+    - match: '-(?=[ \t#]|$)'
+      scope: invalid.illegal.hostname.trailing-character.hosts
+    - match: '{{hostname_char}}{64,}'
+      scope: invalid.illegal.hostname.too-long.hosts
+    - match: '(\.|-)*{{hostname_segment}}(\.|-)*(\.)(?!{{hostname_break}})'
+      scope: meta.string.subdomain.hosts
+      captures:
+        1: invalid.illegal.hostname.sequence.hosts
+        2: invalid.illegal.hostname.sequence.hosts
+        3: punctuation.separator.sequence.hosts
+    - match: '(\.|-)*{{hostname_segment}}(-)*(\.)?{{hostname_break}}'
+      scope: meta.hostname.hosts string.unquoted.hosts
+      captures:
+        1: invalid.illegal.hostname.sequence.hosts
+        2: invalid.illegal.hostname.trailing-character.hosts
+        3: punctuation.terminator.hosts
+      pop: true
+    - match: '[^\w.-]'
+      scope: invalid.illegal.hostname.character.hosts
 
   comments:
     - match: '#'
