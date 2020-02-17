@@ -48,15 +48,26 @@
 1.2.3.4  foo..bar
 #^^^^^^ meta.ip-address constant.numeric
 #                ^ - meta
-#           ^ invalid.illegal.hostname.sequence
+#           ^^ invalid.illegal.hostname.sequence
 1.2.3.4  foo.-bar
 #^^^^^^ meta.ip-address constant.numeric
 #                ^ - meta
-#            ^ invalid.illegal.hostname.sequence
+#           ^^ invalid.illegal.hostname.sequence
 1.2.3.4  foo-.bar
 #^^^^^^ meta.ip-address constant.numeric
 #                ^ - meta
-#           ^ invalid.illegal.hostname.sequence
+#           ^^ invalid.illegal.hostname.sequence
+
+# Punycode hostnames
+::   xn--bcher-kva.example.com
+#    ^^^^ punctuation.definition.string.begin.punycode
+#             ^ punctuation.separator.mapping
+#              ^^^ constant.character.injection
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ - string string
+::  xn--p1ai
+#   ^^^^ punctuation.definition.string.begin.punycode
+#       ^^^^ constant.character.injection
+
 
 # localhost entries using IPv4 and IPv6
 127.0.0.1 localhost.localdomain localhost
@@ -176,6 +187,7 @@ yolo.yoyo       random.characters
 1:2:3:4:5:6:7:8 a.example.com
 #^^^^^^^^^^^^^^ meta.ip-address.v6 constant.numeric
 #               ^^^^^^^^^^^^^ meta.hostname.hosts
+#               ^^^^^^^^^^^^^ - string string
 
 1::             b1.example.com
 #^^ meta.ip-address.v6 constant.numeric
