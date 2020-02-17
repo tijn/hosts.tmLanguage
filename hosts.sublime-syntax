@@ -88,7 +88,7 @@ contexts:
       scope: meta.ip-address.v6.hosts constant.numeric.integer.hexadecimal.hosts
       captures:
         1: punctuation.separator.mapping.hosts
-        2: entity.name.label.hosts
+        2: meta.link-local.hosts entity.name.label.hosts
       push: expect-hostnames
     - match: '{{ipv6}}(?=\s|$)'
       scope: meta.ip-address.v6.hosts constant.numeric.integer.hexadecimal.hosts
@@ -100,32 +100,51 @@ contexts:
     - match: '[ \t]([.-])'
       captures:
         1: invalid.illegal.hostname.leading-character.hosts
-    - match: '[ \t]+([\w.-]{254,})(\.)?{{hostname_break}}'
+    - match: ([\w.-]{254,})(\.)?{{hostname_break}}
       captures:
         1: invalid.illegal.hostname.too-long.hosts
         2: punctuation.terminator.hosts
-    - match: '[ \t]+(?=\w)'
+    - match: (?=\w)
       push: in-hostname
 
   in-hostname:
     - meta_content_scope: meta.hostname.hosts string.unquoted.hosts
-    - match: '-(?=[ \t#]|$)'
+    - match: '-(?=\n|$)'
       scope: invalid.illegal.hostname.trailing-character.hosts
+      pop: true
+    - match: '-(?=[ \t#])'
+      scope: invalid.illegal.hostname.trailing-character.hosts
+    - match: (?:\.{2,}|\.-|-\.)
+      scope: invalid.illegal.hostname.sequence.hosts
     - match: '{{hostname_char}}{64,}'
       scope: invalid.illegal.hostname.too-long.hosts
-    - match: '(\.|-)*{{hostname_segment}}(\.|-)*(\.)(?!{{hostname_break}})'
-      scope: meta.string.subdomain.hosts
+    # Punycode segments
+    - match: \b(xn--)(?:{{hostname_char}}+(-))?(\w+)\b(?!\.?{{hostname_break}})
+      scope: meta.punycode.hosts
       captures:
-        1: invalid.illegal.hostname.sequence.hosts
-        2: invalid.illegal.hostname.sequence.hosts
-        3: punctuation.separator.sequence.hosts
-    - match: '(\.|-)*{{hostname_segment}}(-)*(\.)?{{hostname_break}}'
+        1: punctuation.definition.string.begin.punycode.hosts
+        2: punctuation.separator.mapping.hosts
+        3: constant.character.injection.hosts
+    - match: \b(xn--)(?:{{hostname_char}}+(-))?(\w+)\b(\.)?{{hostname_break}}
+      scope: meta.hostname.hosts string.unquoted.hosts meta.punycode.hosts
+      captures:
+        1: punctuation.definition.string.begin.punycode.hosts
+        2: punctuation.separator.mapping.hosts
+        3: constant.character.injection.hosts
+        4: punctuation.terminator.hosts
+      pop: true
+    # Normal segments
+    - match: '{{hostname_segment}}\b(?!\.?{{hostname_break}})'
+      scope: meta.string.subdomain.hosts
+    - match: '{{hostname_segment}}(\.)?{{hostname_break}}'
       scope: meta.hostname.hosts string.unquoted.hosts
       captures:
-        1: invalid.illegal.hostname.sequence.hosts
-        2: invalid.illegal.hostname.trailing-character.hosts
-        3: punctuation.terminator.hosts
+        1: punctuation.terminator.hosts
       pop: true
+    # Segment separators
+    - match: \.
+      scope: punctuation.separator.sequence.hosts
+    # Invalid hostname characters
     - match: '[^\w.-]'
       scope: invalid.illegal.hostname.character.hosts
 

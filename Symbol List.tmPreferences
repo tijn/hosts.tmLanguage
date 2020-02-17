@@ -4,7 +4,10 @@
     <key>name</key>
     <string>Symbol List</string>
     <key>scope</key>
-    <string>text.hosts meta.hostname</string>
+    <string>
+        text.hosts meta.hostname,
+        text.hosts meta.link-local
+    </string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>
