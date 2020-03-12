@@ -59,15 +59,24 @@
 #           ^^ invalid.illegal.hostname.sequence
 
 # Punycode hostnames
-::   xn--bcher-kva.example.com
+::   xn--bcher-kva.example.com punycode
 #    ^^^^ punctuation.definition.string.begin.punycode
 #             ^ punctuation.separator.mapping
 #              ^^^ constant.character.injection
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^ - string string
-::  xn--p1ai
+#                             ^ - string
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string string
+::  xn--p1ai punycode
 #   ^^^^ punctuation.definition.string.begin.punycode
 #       ^^^^ constant.character.injection
-
+#           ^ - string
+#   ^^^^^^^^^^^^^^^^^ - string string
+::  foo.xn--p1ai. punycode
+#       ^^^^ punctuation.definition.string.begin.punycode
+#           ^^^^ constant.character.injection
+#       ^^^^^^^^ meta.string.tld meta.punycode
+#               ^ punctuation.terminator - meta.punycode
+#                ^ - string
+#   ^^^^^^^^^^^^^^^^^^^^^^ - string string
 
 # localhost entries using IPv4 and IPv6
 127.0.0.1 localhost.localdomain localhost

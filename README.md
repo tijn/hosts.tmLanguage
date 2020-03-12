@@ -1,11 +1,15 @@
 # hosts.tmLanguage
 
-Scrupulous Syntax Highlighting for /etc/hosts
+Scrupulous Syntax Highlighting for `/etc/hosts`
 
 ## Features
 
 * It highlights IPv4 and IPv6 addresses rigidly. For example: it won't match the impossible movie IP-address `189.23.290.13`. This makes it easier to spot errors.
-* It styles private IPv4 address-ranges and public IPs differently. It supports all three private ranges: `10.0.0.0/8`, `172.16.0.0/12`, and `192.168.0.0/16`.
+* It uses different scopes (i.e. different colors) for some [special IP ranges][wiki-ip]:
+    - Loopback: `::1` and `127.0.0/8`
+    - Private: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, and `fc00::/7`
+* Hostnames are in the local index: <kbd>Ctrl</kbd>+<kbd>R</kbd> (MacOS: <kbd>Cmd</kbd>+<kbd>R</kbd>)
+* Hoverable tooltips to render [Punycode][] hostname segments.
 
 ## Installation
 
@@ -13,6 +17,9 @@ Install via [Package Control](https://packagecontrol.io/).
 
 ## Acknowledgements
 
-The regular expressions for IPv6 by David M. Syzdek were found [on stackoverflow.com](http://stackoverflow.com/a/17871737/852657). I had to rewrite them in a different format so any faults or mistakes are probably mine.
+The regular expressions for IPv6 by David M. Syzdek were found [on stackoverflow.com](http://stackoverflow.com/a/17871737/852657). I had to rewrite them in a different format, so any faults or mistakes are probably mine.
 
-[Michael B Lyons](https://github.com/michaelblyons) provided fixes and some great additions. And after that he rewrote the whole thing to add support for IPv6.
+[Michael Lyons](https://github.com/michaelblyons) provided fixes and some great additions. And after that he rewrote the whole thing to add support for IPv6 (though still based on David M. Szydek).
+
+[wiki-ip]: https://en.wikipedia.org/wiki/Reserved_IP_addresses
+[punycode]: https://en.wikipedia.org/wiki/Punycode#Internationalized_domain_names
