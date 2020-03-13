@@ -15,18 +15,18 @@ class HostsFileViewListener(sublime_plugin.ViewEventListener):
             return False
 
     def on_hover(self, point, hover_zone):
-        meta_scope = 'meta.hostname meta.punycode'
-
         if ((hover_zone != sublime.HOVER_TEXT or not
-             self.view.match_selector(point, meta_scope))):
+             self.view.match_selector(point, 'meta.hostname meta.punycode'))):
             return
 
-        expression_region = [r for r in self.view.find_by_selector(meta_scope)
-                             if r.contains(point)][0]
-        punycode = self.view.substr(expression_region)[4:]  # slices off `xn--`
+        expression_region = next(
+            r for r in self.view.find_by_selector('meta.hostname')
+            if r.contains(point))
+
+        hostname = self.view.substr(expression_region)
 
         try:
-            hover_text = str.encode(punycode).decode('punycode')
+            hover_text = str.encode(hostname).decode('idna')
         except Exception as e:
             hover_text = 'Could not parse Punycode expression'
 

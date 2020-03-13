@@ -63,7 +63,9 @@
 #    ^^^^ punctuation.definition.string.begin.punycode
 #             ^ punctuation.separator.mapping
 #              ^^^ constant.character.injection
-#                             ^ - string
+#    ^^^^^^^^^^^^^ meta.punycode
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hostname string.unquoted
+#                             ^ - string - meta.hostname
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string string
 ::  xn--p1ai punycode
 #   ^^^^ punctuation.definition.string.begin.punycode
@@ -77,6 +79,11 @@
 #               ^ punctuation.terminator - meta.punycode
 #                ^ - string
 #   ^^^^^^^^^^^^^^^^^^^^^^ - string string
+::  xn--hxajbheg2az3al.xn--jxalpdlp
+#   ^^^^^^^^^^^^^^^^^^ meta.string.subdomain meta.punycode
+#                     ^ - meta.punycode
+#                      ^^^^^^^^^^^^ meta.punycode
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.hostname string.unquoted
 
 # localhost entries using IPv4 and IPv6
 127.0.0.1 localhost.localdomain localhost
