@@ -2,6 +2,8 @@
 
 Scrupulous Syntax Highlighting for `/etc/hosts`
 
+![Screenshot][demo.png]
+
 ## Features
 
 * It highlights IPv4 and IPv6 addresses rigidly. For example: it won't match the impossible movie IP-address `189.23.290.13`. This makes it easier to spot errors.
@@ -21,6 +23,7 @@ The regular expressions for IPv6 by David M. Syzdek were found [on stackoverflow
 
 [Michael Lyons](https://github.com/michaelblyons) provided fixes and some great additions. And after that he rewrote the whole thing to add support for IPv6 (though still based on David M. Szydek).
 
+[demo.png]: demo/demo.png
 [reserved-ips]: https://en.wikipedia.org/wiki/Reserved_IP_addresses
 [punycode]: https://en.wikipedia.org/wiki/Punycode#Internationalized_domain_names
 [idna]: https://en.wikipedia.org/wiki/Internationalized_domain_name

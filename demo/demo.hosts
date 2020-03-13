@@ -1,0 +1,19 @@
+
+# Loopback IPs
+127.0.0.1   no-place-like-home
+127.8.8.8   home-on-the-range some-local-service # >1 host per line
+::1         its-me-in-ipv6
+
+# Internet IPs
+1.2.3.4     internet.example.com
+1::3:4:5:6:7:8  ipv6.example.com
+
+# "Private" local IPs
+10.1.21.18  lan-resource.local.  # Trailing dot
+
+# Typo checks
+1.2.3.4.5   invalid-ip
+1.2.3.4     invalid?hostname
+
+# Punycode/International Domain Names
+1.2.3.4     xn--bcher-kva.example.com # Hover punycode to see IDN
