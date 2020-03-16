@@ -47,13 +47,13 @@ variables:
   hostname_break: (?=[ \t#]|$)
 
 contexts:
-  # The prototype context is prepended to all contexts but those setting
+  # The prototype context is prepended to all contexts except ones that set
   # meta_include_prototype: false.
   prototype:
     - include: comments
 
   main:
-    - match: ^
+    - match: ^(?=[ \t]*\S)
       push:
         - meta_scope: meta.line.ip-mapping.hosts
         - match: (?=\n|\s*#)
@@ -63,7 +63,7 @@ contexts:
         - include: public
         - match: \S+
           # Consume non-IP lines to prevent highlighting.
-          # Less destructive than invalid.illegal, especially while typing
+          # Less destructive than `invalid.illegal`, especially while typing
 
   loopback:
     - match: \B::1(?=\s|$)
@@ -119,14 +119,24 @@ contexts:
       scope: invalid.illegal.hostname.sequence.hosts
     - match: '{{hostname_char}}{64,}'
       scope: invalid.illegal.hostname.too-long.hosts
+
     # Punycode segments
     - match: \b(xn--)(?:{{hostname_char}}+(-))?(\w+)\b(?!\.?{{hostname_break}})
-      scope: meta.punycode.hosts
+      scope: meta.string.subdomain.hosts meta.punycode.hosts
       captures:
         1: punctuation.definition.string.begin.punycode.hosts
         2: punctuation.separator.mapping.hosts
         3: constant.character.injection.hosts
-    - match: \b(xn--)(?:{{hostname_char}}+(-))?(\w+)\b(\.)?{{hostname_break}}
+    - match: \b((xn--)(?:{{hostname_char}}+(-))?(\w+))\b(\.)?{{hostname_break}}
+      scope: meta.hostname.hosts string.unquoted.hosts
+      captures:
+        1: meta.string.tld.hosts meta.punycode.hosts
+        2: punctuation.definition.string.begin.punycode.hosts
+        3: punctuation.separator.mapping.hosts
+        4: constant.character.injection.hosts
+        5: punctuation.terminator.hosts
+      pop: true
+    - match: \b(xn--)(?:{{hostname_char}}+(-))?(\w+)\b{{hostname_break}}
       scope: meta.hostname.hosts string.unquoted.hosts meta.punycode.hosts
       captures:
         1: punctuation.definition.string.begin.punycode.hosts
@@ -134,17 +144,24 @@ contexts:
         3: constant.character.injection.hosts
         4: punctuation.terminator.hosts
       pop: true
+
     # Normal segments
     - match: '{{hostname_segment}}\b(?!\.?{{hostname_break}})'
       scope: meta.string.subdomain.hosts
-    - match: '{{hostname_segment}}(\.)?{{hostname_break}}'
+    - match: '({{hostname_segment}})(\.){{hostname_break}}'
       scope: meta.hostname.hosts string.unquoted.hosts
       captures:
-        1: punctuation.terminator.hosts
+        1: meta.string.tld.hosts
+        2: punctuation.terminator.hosts
       pop: true
+    - match: '{{hostname_segment}}{{hostname_break}}'
+      scope: meta.hostname.hosts string.unquoted.hosts
+      pop: true
+
     # Segment separators
     - match: \.
       scope: punctuation.separator.sequence.hosts
+
     # Invalid hostname characters
     - match: '[^\w.-]'
       scope: invalid.illegal.hostname.character.hosts
