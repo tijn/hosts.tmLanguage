@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "Hosts: Open Hosts File",
+        "command": "open_hosts_file",
+    },
+    {
+        "caption": "Hosts: Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/Hosts/Hosts.sublime-settings",
+            "default": "{\n\t# Override the default location\n\t\"file_location\": \"$0\"\n},\n",
+        }
+    },
+]

@@ -1,5 +1,24 @@
 import sublime
 import sublime_plugin
+from os.path import expandvars
+
+
+def get_file_location():
+    settings = sublime.load_settings('Hosts.sublime-settings')
+    user_setting = settings.get('file_location')
+    if user_setting:
+        return expandvars(user_setting)
+    return expandvars(settings.get(
+        'default_file_locations')[sublime.platform()])
+
+
+class OpenHostsFileCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        window = self.view.window()
+        if not window:
+            print('Missing window for view')
+            return
+        view = window.open_file(get_file_location())
 
 
 class HostsFileViewListener(sublime_plugin.ViewEventListener):
