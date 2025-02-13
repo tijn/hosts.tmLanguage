@@ -12,6 +12,7 @@ Scrupulous Syntax Highlighting for `/etc/hosts`
     - Private: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, and `fc00::/7`
 * Hostnames are in the local index: <kbd>Ctrl</kbd>+<kbd>R</kbd> (MacOS: <kbd>Cmd</kbd>+<kbd>R</kbd>)
 * Hoverable tooltips on [Punycode][] hostname segments to render [internationalized domain names][idna].
+* Command Palette item to open Hosts file.
 
 ## Installation
 
