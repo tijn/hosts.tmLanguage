@@ -1,0 +1,11 @@
+{
+    // Typical paths to the Hosts file
+    "default_file_locations": {
+        "windows": "%DRIVERDATA%/../etc/hosts",
+        "osx": "/private/etc/hosts",
+        "linux": "/etc/hosts",
+    },
+
+    // Override the default location
+    "file_location": null,
+}
