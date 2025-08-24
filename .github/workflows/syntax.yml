@@ -21,14 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
         include:
           - build: 'latest'
             packages: master
           - build: 'stable'
             packages: binary
+          # We claim support for 3092+, but binary tests do not exist
+          # until 3154, and Ubuntu is missing dependencies until 3181
+          - build: 3181
+            packages: binary
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: SublimeText/syntax-test-action@v2
         with:
           build: ${{ matrix.build }}
